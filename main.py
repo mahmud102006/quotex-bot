@@ -1,27 +1,20 @@
-import os, logging
-from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filters
-from PIL import Image
-from io import BytesIO
-import requests
-from logic import analyze_image
+from telegram.ext import Updater, CommandHandler
+import os
 
-TOKEN = os.environ["BOTTOKEN"]
-URL = "https://" + os.environ.get("RENDER_SERVICE_NAME", "quotex-bot") + ".onrender.com"
-logging.basicConfig(level=logging.INFO)
+TOKEN = os.environ.get("BOTTOKEN")
 
-async def handle_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    file = await context.bot.get_file(update.message.photo[-1].file_id)
-    img = Image.open(BytesIO(requests.get(file.file_path).content))
-    signal, reason = analyze_image(img)
+def start(update, context):
+    update.message.reply_text("Bot চালু হয়েছে!")
 
-    await update.message.reply_text(f"{signal}\nReason: {reason}")
+def main():
+    updater = Updater(TOKEN)
+    dp = updater.dispatcher
 
-if __name__ == "__main__":
-    app = ApplicationBuilder().token(TOKEN).build()
-    app.add_handler(MessageHandler(filters.PHOTO, handle_image))
-    app.run_webhook(
-        listen="0.0.0.0",
-        port=int(os.environ.get("PORT", 8000)),
-        webhook_url=f"{URL}/webhook"
-    )
+    dp.add_handler(CommandHandler("start", start))
+
+    # এখানে start_polling() দিয়ে bot চালু করো
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
