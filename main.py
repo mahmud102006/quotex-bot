@@ -7,7 +7,7 @@ import requests
 from logic import analyze_image
 
 TOKEN = os.environ["BOTTOKEN"]
-URL = os.environ["RENDER_EXTERNAL_URL"]
+URL = "https://" + os.environ.get("RENDER_SERVICE_NAME", "quotex-bot") + ".onrender.com"
 logging.basicConfig(level=logging.INFO)
 
 async def handle_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
