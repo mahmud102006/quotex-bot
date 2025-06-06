@@ -1,0 +1,5 @@
+python-telegram-bot==20.3
+Pillow
+requests
+opencv-python-headless
+numpy
