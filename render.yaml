@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: quotex-bot
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python main.py"
+    envVars:
+      - key: BOTTOKEN
+        value: 8165956615:AAHpeG4w2OFd0a3CavtKSK5sZUl-q0qeyVU
+      - key: RENDER_EXTERNAL_URL
+        value: https://quotex-bot.onrender.com
